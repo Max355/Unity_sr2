@@ -9,6 +9,9 @@ public class PlayerMovement : MonoBehaviour
     BoxCollider2D boxCollider;
     Rigidbody2D rbody;
     Animator myAnimator;
+    public Transform fightPoint;
+    public LayerMask enemyLayers;
+    [SerializeField] float fightRange = 0.5f;
 
 
 
@@ -71,5 +74,13 @@ public class PlayerMovement : MonoBehaviour
       void Fight()
     {
         myAnimator.SetTrigger("Fighting");//play an attack animation    
+         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(fightPoint.position, fightRange, enemyLayers);
+
+        foreach(Collider2D enemy in hitEnemies)//damage them
+        {
+            enemy.GetComponent<EnemyMovement>().TakeDamage(100);
+        }
     }
+
+ 
 }
